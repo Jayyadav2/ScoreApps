@@ -1,28 +1,22 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-const WinScreen: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
+const LoseScreen: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
   const { points } = route.params; // Get points from route
 
   const handleWin = () => {
     const newPoints = points + 100; // Calculate new points
-    navigation.navigate('Win', { points: newPoints }); // Stay on Win screen
+    navigation.navigate('Win', { points: newPoints }); // Navigate to Win screen
   };
 
   const handleLose = () => {
     const newPoints = points - 50; // Calculate new points
-    if (newPoints < 0) {
-      navigation.navigate('Lose', { points: newPoints }); // Navigate to Lose screen
-    } else {
-      navigation.navigate('Win', { points: newPoints }); // Stay on Win screen
-    }
+    navigation.navigate('Lose', { points: newPoints }); // Stay on Lose screen
   };
 
   return (
     <View style={styles.container}>
-      
-      <Text style={styles.text}>You earned 100 points!</Text>
-      <Text style={styles.text}>Total Points: {points}</Text>
+      <Text style={styles.text}>Your final points: {points}</Text>
       <Button title="Win" onPress={handleWin} />
       <Button title="Lose" onPress={handleLose} />
     </View>
@@ -38,6 +32,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
+    color: 'red', // Color for LoseScreen
     marginBottom: 20,
   },
   text: {
@@ -46,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WinScreen;
+export default LoseScreen;

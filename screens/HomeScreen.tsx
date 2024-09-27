@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../App';
 
-type Props = StackScreenProps<RootStackParamList, 'Home'>;
-
-const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
-  const [points, setPoints] = useState(route.params.points);
+const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const [points, setPoints] = useState(0); // Initialize points to 0
 
   const handleWin = () => {
-    navigation.push('Win', { points: points + 100 });
+    const newPoints = points + 100; // Calculate new points
+    setPoints(newPoints);
+
+    if (newPoints > 0) {
+      navigation.navigate('Win', { points: newPoints }); // Navigate to Win screen
+    } else {
+      navigation.navigate('Lose', { points: newPoints }); // Navigate to Lose screen
+    }
   };
 
   const handleLose = () => {
-    setPoints(points - 50);
+    const newPoints = points - 50; // Calculate new points
+    setPoints(newPoints);
+
+    if (newPoints < 0) {
+      navigation.navigate('Lose', { points: newPoints }); // Navigate to Lose screen
+    } else {
+      navigation.navigate('Win', { points: newPoints }); // Navigate to Win screen
+    }
   };
 
   return (
@@ -32,7 +42,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 20,
+    fontSize: 24,
     marginBottom: 20,
   },
 });
